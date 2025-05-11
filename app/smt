@@ -1,0 +1,44 @@
+panneau
+- id
+- emplacement
+- taille
+- type
+- etat
+- prix
+- description
+- reservation_id
+
+
+client
+- id
+- nom
+- prenom
+- adresse
+- contact
+
+
+reservation
+- id
+- date debut
+- date fin
+- statut
+- montant
+- client_id
+
+
+paiement
+- id
+- date
+- montant
+- mode
+- statut
+- client_id
+
+
+interface
+- page 1
+info client
+info affiche (image)
+
+- page 2
+info panneau
