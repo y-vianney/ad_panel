@@ -12,12 +12,10 @@
 ├── public <br>
 │  ├── css <br>
 │  ├── fonts <br>
-│  │  └── montserrat <br>
-│  │      └── static <br>
 │  ├── images <br>
 │  ├── js <br>
 │  └── svg <br>
 └── views <br>
-├── client <br>
-├── panneau <br>
-└── reservation <br>
+   ├── client <br>
+   ├── panneau <br>
+   └── reservation <br>
