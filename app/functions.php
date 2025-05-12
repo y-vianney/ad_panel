@@ -19,6 +19,19 @@ function validateReservation($method)
     );
 }
 
+function validatePanneau($method)
+{  // Function used to validate the form data based on the client fields
+    return (
+        isset($method['emplacement']) &&
+        isset($method['longueur']) &&
+        isset($method['largeur']) &&
+        isset($method['prix']) &&
+        isset($method['type']) &&
+        isset($method['etat']) &&
+        isset($method['description'])
+    );
+}
+
 /**
  * Calcul basé sur le type, le taille (longueur et largeur), la durée
  *
