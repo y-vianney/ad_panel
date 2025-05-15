@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">
+    <defs>
+        <!-- A thin arrow marker shaped like half of a square (diamond) -->
+        <marker
+                id="thin-arrow"
+                markerUnits="strokeWidth"
+                markerWidth="6"
+                markerHeight="6"
+                viewBox="0 0 6 6"
+                refX="6" refY="3"
+                orient="auto">
+            <!--
+              Triangle with vertices at (6,3) tip, and (3,6),(3,0) base.
+              That’s half of a diamond (i.e. a square rotated 45°).
+            -->
+            <path d="M6 3 L3 6 L3 0 Z"
+                  fill="#9B9B9B" />
+        </marker>
+    </defs>
+
+    <!-- Example line with the new half-square arrowhead -->
+    <line x1="20" y1="50"
+          x2="180" y2="50"
+          stroke="#9B9B9B"
+          stroke-width="1"
+          marker-end="url(#thin-arrow)" />
+</svg>

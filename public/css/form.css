@@ -1,0 +1,68 @@
+form {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    max-width: fit-content;
+    padding: 35px;
+    margin: auto;
+}
+
+form span.h1 {
+    margin-bottom: 50px;
+}
+
+form .form-group {
+    display: flex;
+    gap: 10px;
+}
+
+form .form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 15px;
+}
+
+form .form-control input {
+    border: 1px solid rgba(87, 87, 87, 0.76);
+    padding: 10px 15px;
+}
+
+.form-control label:has(input[type="radio"]) {
+    width: 100%;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
+    position: relative;
+    transition: all .3s ease-in-out;
+}
+
+.form-control label span {
+    text-align: center;
+    width: 50%;
+}
+
+.form-control label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.form-control label:has(input[type="radio"]:checked) {
+    box-shadow: inset 0 0 0 4px rgba(123, 123, 255, 0.89);
+    background: rgba(47, 115, 163, 0.35);
+    border: 1px solid rgba(123, 123, 255, 0.89);
+}
+
+form button[type="submit"] {
+    font-family: "Literata", "Montserrat", "Open Sans", serif;
+    font-size: 14px;
+    border: none;
+    width: 75%;
+    height: 45px;
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    margin-top: 25px;
+}

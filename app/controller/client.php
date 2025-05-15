@@ -1,6 +1,7 @@
 <?php
 require_once "../connect.php";
 require_once "../functions.php";
+require_once "../models/uri.php";
 
 
 /*
@@ -13,13 +14,23 @@ require_once "../functions.php";
 $action = $_GET['action'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $query = "select * from client";
+    if ($action == "logout") {
+        if (session_status() == PHP_SESSION_NONE)
+            session_start();
 
-    $result = $cnx->query($query);
-    $rows = $result->fetch_all();  // Check PHP documentation for fetch_all() - https://www.php.net/manual/en/mysqli-result.fetch-all.php
+        $_SESSION['id'] = null;
+        $msg = "Vous vous êtes déconnecté";
+
+        header("Location: " . $baseUrls['authenticate'] . "?page=login&msg=$msg");
+    } else {
+        $query = "select * from client";
+
+        $result = $cnx->query($query);
+        $rows = $result->fetch_all();  // Check PHP documentation for fetch_all() - https://www.php.net/manual/en/mysqli-result.fetch-all.php
+    }
 }
 
-if ($action && $action == "create") {  // CREATE
+if ($action == "register") {  // CREATE
     if (validateClient($_POST)) {
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -47,14 +58,14 @@ if ($action && $action == "create") {  // CREATE
             $query = "insert into utilisateur (email, password, client_id) values ('$email','$hashed_pwd','$id')";
 
             if ($cnx->query($query) === TRUE)
-                header("Location: http://localhost/pannel/views/client/login.php");
+                header("Location: " . $baseUrls['authenticate'] . "?page=login");
             else
                 echo "Error";
         } else {
             echo "Error: " . $query . "<br>" . $cnx->error;
         }
-    }
-} elseif ($action && $action == "login") {
+    } else echo "La vérification n'est pas valide";
+} elseif ($action == "login") {
     if (isset($_POST['mail']) && isset($_POST['passwd'])) {
         $msg = null;
 
@@ -70,15 +81,6 @@ if ($action && $action == "create") {  // CREATE
 
         $row = $result->fetch_assoc() ?? [];
 
-        /**
-         * row = [
-         *  ["email" => "value"],
-         *  ....
-         * ]
-         *
-         * row = ["email" => "value", "password" => "value"]
-         */
-
         if (count($row) > 0) {  //
             $hashed_pwd = $row['password'];
 
@@ -86,8 +88,9 @@ if ($action && $action == "create") {  // CREATE
                 session_start();
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['nom'] = $row['nom'];
+                $_SESSION['prenom'] = $row['prenom'];
 
-                header("Location: http://localhost/pannel/views/client/espace.php");
+                header("Location: " . $baseUrls['espace']);
             }
             else
                 $msg = "Mot de passe incorrect";
@@ -95,18 +98,9 @@ if ($action && $action == "create") {  // CREATE
             $msg = "Compte introuvable";
 
         if ($msg != null)
-            header("Location: http://localhost/pannel/views/client/login.php?msg=" . $msg);
-    }
-} elseif ($action && $action == "logout") {
-    if (session_status() == PHP_SESSION_NONE)
-        session_start();
-
-    $_SESSION['id'] = null;
-    $msg = "Vous vous êtes déconnecté";
-
-    header("Location: http://localhost/pannel/views/client/login.php?msg=" . $msg);
-}
-elseif ($action && $action == "update") {  // UPDATE
+            header("Location: " . $baseUrls['authenticate'] . "?page=login&msg=$msg");
+    } else echo "La vérification n'est pas valide";
+} elseif ($action == "update") {  // UPDATE
     if (validateClient($_POST)) {
         $id = $_POST['id'];
 
@@ -122,8 +116,8 @@ elseif ($action && $action == "update") {  // UPDATE
         } else {
             echo "Error updating record: " . $cnx->error;
         }
-    }
-} elseif ($action && $action == "delete") {  // DELETE
+    } else echo "La vérification n'est pas valide";
+} elseif ($action == "delete") {  // DELETE
     $id = $_GET['id'];
 
     $query = "delete from client where id = $id";

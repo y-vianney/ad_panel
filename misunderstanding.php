@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<h1><a href="index.php" style="color: black">Traffic Signs</a></h1>
+<h1><a href="#" style="color: black">Traffic Signs</a></h1>
 <p>Entre le nom du panneau et la description, puis clique sur <strong>Enregistrer</strong> pour sauvegarder.</p>
 
 <div class="main-container">

@@ -15,7 +15,8 @@ function validateReservation($method)
     return (
         isset($method['date_deb']) &&
         isset($method['date_fin']) &&
-        isset($method['montant'])
+        isset($method['panneau']) &&
+        isset($method['mode'])
     );
 }
 
@@ -38,5 +39,5 @@ function validatePanneau($method)
  * @return integer
  */
 function montantReservation() {
-
+    return 45000;
 }

@@ -14,12 +14,14 @@ require_once "../../app/middleware/auth.php";
 ?>
 
 <body>
-<h1>Mon espace</h1>
-<span>Bienvenue <b><?= $_SESSION['nom'] . $_SESSION['prenom'] ?></b></span>
+<div class="layout">
+    <?php include_once "../layouts/navbar.php"; ?>
 
-<form action="../../app/controller/client.php?action=logout" method="post">
-    <button type="submit" style="margin-top: 25px">Se déconnecter</button>
-</form>
-
+    <div class="content">
+        <div class="content-block">
+            <?php include_once "../panneau/panneauxList.php"; ?>
+        </div>
+    </div>
+</div>
 </body>
 </html>

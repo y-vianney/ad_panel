@@ -1,0 +1,153 @@
+.scrollable::-webkit-scrollbar {
+    width: 2px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+}
+
+
+.layout {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+.layout .navbar {
+    max-width: 200px;
+    min-width: 100px;
+    width: 100%;
+    position: relative;
+    border-right: 1px solid #cccccc;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.layout .navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.layout .navbar ul a {
+    text-decoration: none !important;
+}
+
+.layout .navbar ul a.active {
+    text-decoration: underline !important;
+}
+
+.layout .navbar ul a:hover {
+    text-decoration: underline !important;
+}
+
+.layout .navbar .logout {
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.layout .content {
+    width: 100%;
+    padding: 25px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.layout .content .content-block {}
+
+.layout .content .content-block .title {
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+.layout .content .content-block .subtitle {
+    font-weight: 200;
+    text-decoration: underline;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.layout .content .content-block .panel-display {
+    min-width: 150px;
+    width: 150px;
+    min-height: 120px;
+    height: 120px;
+    border: 1px solid #cccccc;
+    position: relative;
+}
+
+.layout .content .content-block .panel-detail {
+    min-width: 200px;
+}
+
+.layout .content .content-block .panel-display::before, .panel-display::after {
+    font-size: .7rem;
+    color: #b3b3b3;
+    position: absolute;
+}
+
+.layout .content .content-block .panelList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.panelList .panel {
+    display: flex;
+}
+
+.panelList .panel ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 120px;
+}
+
+.panelList .panel ul li {
+    margin-left: 25px;
+}
+
+.panel-display .perim-icon.top {
+    position: absolute;
+    top: -35px;
+    right: -10px;
+}
+
+.panel-display .perim-icon.left {
+    position: absolute;
+    transform: rotate(90deg);
+    left: -60px;
+    bottom: 25px;
+}
+
+.panel-display::before {
+    content: attr(data-long);
+    bottom: 40%;
+    left: 15px;
+}
+
+.panel-display::after {
+    content: attr(data-larg);
+    right: 40%;
+    top: 10px;
+}

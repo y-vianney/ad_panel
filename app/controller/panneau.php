@@ -31,5 +31,5 @@ if ($action == 'create') {
             echo "Enregistré";
         else
             echo "Error: " . $query . "<br>" . $cnx->error;
-    }
+    } else echo "La vérification n'est pas valide";
 }

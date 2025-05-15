@@ -1,5 +1,20 @@
 <?php
 
+$modes = [
+    [
+        "value" => "Wave",
+        "label" => "Wave"
+    ],
+    [
+        "value" => "MTN Money",
+        "label" => "MTN Money"
+    ],
+    [
+        "value" => "Orange Money",
+        "label" => "Orange Money"
+    ],
+];
+
 $types_p = [
     [
         "value" => "Panneaux modernes",
