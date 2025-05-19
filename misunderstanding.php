@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../public/css/style.css">
     <style>
         body {
             text-align: center;
@@ -36,19 +35,19 @@
 
         <div class="form-control" style="width: 100% !important;">
             <label for="name">Nom du panneau</label>
-            <input name="name" type="text" required>
+            <input name="name" id="name" type="text" required>
         </div>
 
         <div class="form-control" style="width: 100% !important;">
             <label for="description">Description</label>
-            <textarea name="description" rows="3"></textarea>
+            <textarea name="description" id="description" rows="3"></textarea>
         </div>
 
         <button id="exportBtn" type="submit">Enregistrer</button>
     </form>
 </div>
 
-<script src="../public/js/script.js">
+<script src="public/js/script.js">
 </script>
 
 <script>

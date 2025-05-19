@@ -1,3 +1,17 @@
+:root {
+    --mtn-color: rgba(255, 221, 38, 0.89);
+    --mtn-bgcolor: rgba(255, 221, 38, 0.35);
+    --wave-color: rgba(60, 167, 255, 0.89);
+    --wave-bgcolor: rgba(60, 167, 255, 0.35);
+    --orange-color: orange;
+    --orange-bgcolor: rgba(255, 165, 0, 0.35);
+}
+
+*::selection {
+    background: #000000;
+    color: #ffffff;
+}
+
 .h1 {
     font-size: 1.2rem;
     font-weight: 500;
@@ -7,4 +21,33 @@
     font-size: 15px;
     font-weight: 400;
     text-decoration: underline;
+    margin-top: 15px;
+}
+
+input {
+    font-family: "Literata", "Montserrat", "Open Sans", serif !important;
+}
+
+.status.active {
+    border: 1px solid #c2ffc2;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: #99ff6a1f;
+    color: green;
+}
+
+.status.suspended {
+    border: 1px solid #39393973;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(57, 57, 57, 0.12);
+    color: #000000;
+}
+
+.status.inactive {
+    border: 1px solid #ffc2c2;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(255, 106, 106, 0.12);
+    color: darkred;
 }

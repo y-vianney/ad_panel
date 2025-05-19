@@ -1,20 +1,3 @@
-.scrollable::-webkit-scrollbar {
-    width: 2px;
-}
-
-.scrollable::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
-}
-.scrollable::-webkit-scrollbar-thumb:hover {
-    background: transparent;
-}
-
-
 .layout {
     width: 100%;
     height: 100vh;
@@ -24,7 +7,7 @@
 
 .layout .navbar {
     max-width: 200px;
-    min-width: 100px;
+    min-width: 170px;
     width: 100%;
     position: relative;
     border-right: 1px solid #cccccc;
@@ -32,6 +15,22 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.layout .navbar .footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.layout .navbar .footer .profile {
+    width: 100%;
+}
+
+.profile .lastname {
+    font-weight: 500;
 }
 
 .layout .navbar ul {
@@ -62,12 +61,41 @@
 
 .layout .content {
     width: 100%;
-    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout .content .topbar {
+    max-height: 55px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: .5px solid #cccccc;
+}
+
+.layout .content .main-block {
+    min-height: calc(100% - 65px);
+    display: flex;
+    transition: all .4s ease-in;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
 
-.layout .content .content-block {}
+.layout .content .content-block {
+    min-width: 200px;
+    width: 100%;
+    height: fit-content;
+    padding: 25px;
+}
+
+.layout .content-block .header {
+    border-bottom: 1px solid #cccccc;
+    max-width: 800px;
+    margin: 0 15px 50px 15px;
+    padding-bottom: 15px;
+}
 
 .layout .content .content-block .title {
     font-weight: 500;
@@ -91,10 +119,6 @@
     position: relative;
 }
 
-.layout .content .content-block .panel-detail {
-    min-width: 200px;
-}
-
 .layout .content .content-block .panel-display::before, .panel-display::after {
     font-size: .7rem;
     color: #b3b3b3;
@@ -106,25 +130,20 @@
     flex-direction: column;
     width: 100%;
     gap: 25px;
-    margin-top: 25px;
 }
 
 .panelList .panel {
     display: flex;
+    justify-content: space-between;
+    max-width: 800px;
 }
 
 .panelList .panel ul {
+    min-width: 300px;
     margin: 0;
     padding: 0;
     list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     height: 120px;
-}
-
-.panelList .panel ul li {
-    margin-left: 25px;
 }
 
 .panel-display .perim-icon.top {
@@ -150,4 +169,15 @@
     content: attr(data-larg);
     right: 40%;
     top: 10px;
+}
+
+.layout .sidebar {
+    min-width: 350px;
+    border-left: .5px solid #ccc;
+    display: none;
+    background: #ffffff;
+}
+
+.layout .sidebar.active {
+    display: block;
 }

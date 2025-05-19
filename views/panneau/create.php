@@ -14,9 +14,9 @@ require_once "../../app/models/constants.php";
 ?>
 
 <body>
-<h1>Panneau</h1>
-
 <form action="../../app/controller/panneau.php?action=create" method="post">
+    <span class="h1">Panneau</span>
+
     <?php foreach ($controls_p as $key => $properties): ?>
         <?php if ($properties['type'] !== "select"): ?>
             <div class="form-control">
@@ -32,7 +32,7 @@ require_once "../../app/models/constants.php";
                 >
             </div>
         <?php else: ?>
-            <div class="">
+            <div class="form-control">
                 <label for="<?= $key ?>"><?= $properties["label"] ?></label>
                 <select name="<?= $key ?>" id="<?= $key ?>">
                     <option value="" selected="selected">Choisissez</option>

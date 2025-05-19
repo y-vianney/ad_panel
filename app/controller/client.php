@@ -13,11 +13,11 @@ require_once "../models/uri.php";
  */
 $action = $_GET['action'] ?? null;
 
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if ($action == "logout") {
-        if (session_status() == PHP_SESSION_NONE)
-            session_start();
-
         $_SESSION['id'] = null;
         $msg = "Vous vous êtes déconnecté";
 
@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 if ($action == "register") {  // CREATE
     if (validateClient($_POST)) {
+        $msg = "Votre compte a bien été créé";
+
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
         $adresse = $_POST['adresse'];
@@ -49,22 +51,31 @@ if ($action == "register") {  // CREATE
             $user = $cnx->query($check);
 
             if ($user->num_rows > 0) {
-                echo "User found";
-                exit;
+                $msg = "Cette adresse est déjà utilisée.";
+            } else {
+                $hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
+
+                $query = "insert into utilisateur (email, password, client_id) values ('$email','$hashed_pwd','$id')";
+
+                if ($cnx->query($query) === TRUE) {
+                    $_SESSION['error'] = 0;
+                    header("Location: " . $baseUrls['authenticate'] . "?page=login?msg=$msg");
+                }
+                else
+                    $msg = "Une erreur est survenue lors de l'enregistrement de votre compte. Veuillez contacter un administrateur.";
             }
-
-            $hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
-
-            $query = "insert into utilisateur (email, password, client_id) values ('$email','$hashed_pwd','$id')";
-
-            if ($cnx->query($query) === TRUE)
-                header("Location: " . $baseUrls['authenticate'] . "?page=login");
-            else
-                echo "Error";
         } else {
-            echo "Error: " . $query . "<br>" . $cnx->error;
+            $msg = "Une erreur est survenue lors de l'enregistrement de votre compte. Veuillez contacter un administrateur.";
         }
-    } else echo "La vérification n'est pas valide";
+
+        if (isset($id)) {
+            $deleteQuery = "delete from client where id=$id";
+            $cnx->query($deleteQuery);
+        }
+
+        $_SESSION['error'] = 1;
+        header("Location: " . $baseUrls['authenticate'] . "?page=register&msg=$msg");
+    } else echo "La vérification des données d'inscription n'est pas valide";
 } elseif ($action == "login") {
     if (isset($_POST['mail']) && isset($_POST['passwd'])) {
         $msg = null;
@@ -73,7 +84,7 @@ if ($action == "register") {  // CREATE
         $password = $_POST['passwd'];
 
         $query = "
-            select utilisateur.*, client.nom, client.prenom
+            select utilisateur.*, client.*
             from utilisateur inner join client on client.id=utilisateur.client_id
             where email = '$email'
         ";
@@ -87,8 +98,11 @@ if ($action == "register") {  // CREATE
             if (password_verify($password, $hashed_pwd)) {
                 session_start();
                 $_SESSION['id'] = $row['id'];
-                $_SESSION['nom'] = $row['nom'];
-                $_SESSION['prenom'] = $row['prenom'];
+                $_SESSION['lastname'] = $row['nom'];
+                $_SESSION['firstname'] = $row['prenom'];
+                $_SESSION['email'] = $email;
+                $_SESSION['adresse'] = $row['adresse'];
+                $_SESSION['contact'] = $row['contact'];
 
                 header("Location: " . $baseUrls['espace']);
             }
@@ -97,12 +111,15 @@ if ($action == "register") {  // CREATE
         } else
             $msg = "Compte introuvable";
 
-        if ($msg != null)
+        if ($msg != null) {
+            $_SESSION['error'] = 1;
             header("Location: " . $baseUrls['authenticate'] . "?page=login&msg=$msg");
-    } else echo "La vérification n'est pas valide";
+        }
+    } else echo "La vérification des données de connexion n'est pas valide";
 } elseif ($action == "update") {  // UPDATE
     if (validateClient($_POST)) {
         $id = $_POST['id'];
+        $msg = "Nous n'avons pas pu modifier vos informations. Veuillez réessayer";
 
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -112,11 +129,20 @@ if ($action == "register") {  // CREATE
         $query = "update client set nom = '$nom', prenom = '$prenom', adresse = '$adresse', contact = '$contact' where id = $id";
 
         if ($cnx->query($query) === TRUE) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $cnx->error;
+            $_SESSION['lastname'] = $nom;
+            $_SESSION['firstname'] = $prenom;
+            $_SESSION['adresse'] = $adresse;
+            $_SESSION['contact'] = $contact;
+            $_SESSION['error'] = 0;
+            $msg = "Vos informations ont été modifiées.";
         }
-    } else echo "La vérification n'est pas valide";
+        else
+            $_SESSION["error"] = 1;
+
+        $referer = $_SERVER['HTTP_REFERER'];
+        $url = parse_url($referer, PHP_URL_PATH);
+        header("Location: $url?option=update-user&msg=$msg");
+    } else echo "La vérification des données de modification n'est pas valide";
 } elseif ($action == "delete") {  // DELETE
     $id = $_GET['id'];
 

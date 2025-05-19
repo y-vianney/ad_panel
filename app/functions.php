@@ -1,6 +1,7 @@
 <?php
+require_once "models/constants.php";
 
-function validateClient($method)
+function validateClient($method): bool
 {  // Function used to validate the form data based on the client fields
     return (
         isset($method['nom']) &&
@@ -10,7 +11,7 @@ function validateClient($method)
     );
 }
 
-function validateReservation($method)
+function validateReservation($method): bool
 {  // Function used to validate the form data based on the client fields
     return (
         isset($method['date_deb']) &&
@@ -20,7 +21,7 @@ function validateReservation($method)
     );
 }
 
-function validatePanneau($method)
+function validatePanneau($method): bool
 {  // Function used to validate the form data based on the client fields
     return (
         isset($method['emplacement']) &&
@@ -34,10 +35,31 @@ function validatePanneau($method)
 }
 
 /**
- * Calcul basé sur le type, le taille (longueur et largeur), la durée
+ * Calculate the price for a reservation
+ *
+ * @param string $type
+ * @param float $height
+ * @param float $width
+ * @param int $panelPrice
+ * @param int $duration
  *
  * @return integer
  */
-function montantReservation() {
-    return 45000;
+function montantReservation(string $type, float $height, float $width, int $panelPrice, int $duration): int {
+    $area = $height * $width;
+    $multiplier = getMultiplier($type);
+    $price = ($area * $multiplier * $duration * $panelPrice) / 10;
+
+    return round($price);
+}
+
+function getMultiplier(string $currPanelType): float {
+    global $types_p;
+
+    $typeFound = array_filter($types_p, function ($type) use ($currPanelType) {
+        return $type['value'] === $currPanelType;
+    });
+    $typeFound = array_values($typeFound)[0];
+
+    return count($typeFound) > 0 ? $typeFound['multiplier'] : 1.0;
 }

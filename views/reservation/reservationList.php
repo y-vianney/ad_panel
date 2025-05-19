@@ -6,7 +6,8 @@ if (session_status() == PHP_SESSION_NONE)
 
 $id = $_SESSION['id'];
 $query = "
-    select * from reservation
+    select reservation.id as reserv_id, reservation.date_deb, reservation.date_fin, reservation.statut, reservation.montant, panneau.*
+    from reservation
     inner join panneau on reservation.id = panneau.reservation_id
     where client_id = '$id'
 ";
@@ -15,38 +16,71 @@ $result = $cnx->query($query);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
-<span class="title">Mes réservations</span>
+<style>
+    table thead th {
+        font-weight: 400;
+        border: none;
+        border-bottom: 1px solid #333333;
+        opacity: 0.7;
+    }
 
-<div style="width: 100%; overflow-x: scroll; padding: 25px 5px" class="scrollable">
-    <table border="1" style="border-collapse: collapse;">
+    table tbody tr {
+        border: none;
+        border-bottom: .5px solid #ccc;
+    }
+
+    table tbody td {
+        border: none;
+        min-width: 50px;
+    }
+
+    table tbody tr:nth-child(even) {
+        background: rgba(204, 204, 204, 0.29);
+    }
+</style>
+
+<div style="width: 100%; overflow-x: scroll; padding: 0 5px">
+    <table style="border-collapse: collapse;">
         <thead>
-        <th style="min-width: 30px; padding: 1px 4px">#</th>
-        <th style="min-width: 150px; padding: 1px 4px">Type de panneau</th>
-        <th style="min-width: 150px; padding: 1px 4px">Longueur</th>
-        <th style="min-width: 150px; padding: 1px 4px">Largeur</th>
-        <th style="min-width: 150px; padding: 1px 4px">Type</th>
-        <th style="min-width: 150px; padding: 1px 4px">Prix</th>
-        <th style="min-width: 150px; padding: 1px 4px">Durée</th>
-        <th style="min-width: 150px; padding: 1px 4px">Montant de la réservation</th>
-        <th style="min-width: 150px; padding: 1px 4px">Actions</th>
+            <th style="min-width: 30px; padding: 4px 25px 15px 10px; text-align: start">#</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Type de panneau</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Longueur</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Largeur</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Type</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Prix</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Durée</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Montant de la réservation</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Statut</th>
+            <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Actions</th>
         </thead>
 
         <tbody>
-        <?php foreach ($rows as $row): ?>
+        <?php if (count($rows) == 0): ?>
             <tr>
-                <td><?= $row['id'] ?></td>
-                <td><?= $row['type'] ?></td>
-                <td><?= $row['longueur'] ?></td>
-                <td><?= $row['largeur'] ?></td>
-                <td><?= $row['type'] ?></td>
-                <td><?= $row['prix'] ?></td>
-                <td><?= $row['date_deb'] . ' - ' . $row['date_fin'] ?></td>
-                <td><?= $row['montant'] ?></td>
-                <td>
-                    <a href="../reservation/update.php?id=<?= $row['id'] ?>">Modifier</a>
-                </td>
+                <td colspan="10" style="text-align: center; padding: 15px">Aucune réservation pour l'instant</td>
             </tr>
-        <?php endforeach; ?>
+        <?php else: ?>
+            <?php foreach ($rows as $row): ?>
+                <tr>
+                    <td style="padding: 15px 25px 15px 10px; text-align: start"><?= $row['reserv_id'] ?></td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= $row['type'] ?></td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= $row['longueur'] ?></td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= $row['largeur'] ?></td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= $row['type'] ?></td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= $row['prix'] ?> F</td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= round((strtotime($row['date_fin']) - strtotime($row['date_deb'])) / (60 * 60 * 24)) ?> jours</td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start"><?= number_format($row['montant'], 0, ',', '.') ?> F</td>
+                    <td style="padding: 15px 25px 15px 0; text-align: center">
+                    <span class="status <?= (strtolower($row['statut']) == 'active' ? 'active' : (strtolower($row['statut']) == 'suspendue')) ? 'suspended' : 'inactive' ?>">
+                        <?= $row['statut'] ?>
+                    </span>
+                    </td>
+                    <td style="padding: 15px 25px 15px 0; text-align: start">
+                        <a href="../reservation/update.php?id=<?= $row['reserv_id'] ?>">Modifier</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>
