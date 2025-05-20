@@ -33,3 +33,7 @@ if ($action == 'create') {
             echo "Error: " . $query . "<br>" . $cnx->error;
     } else echo "La vérification n'est pas valide";
 }
+
+if ($cnx) {  // Closing connection
+    $cnx->close();
+}

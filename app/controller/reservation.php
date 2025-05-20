@@ -128,3 +128,7 @@ if ($action == 'create') {
 
     header("Location: " . $baseUrls['modifier-reservation'] . "?id=$id&action=update");
 }
+
+if ($cnx) {  // Closing connection
+    $cnx->close();
+}
