@@ -17,6 +17,10 @@ switch ($url) {
         break;
     case str_ends_with($url, 'mon-historique.php'):
         $title = "Mon historique";
+        break;
+    case str_ends_with($url, 'panneau/create.php'):
+        $title = "Ajouter un panneau";
+        break;
 }
 ?>
 

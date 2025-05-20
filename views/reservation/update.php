@@ -31,7 +31,7 @@ $result = $cnx->query("select * from panneau where reservation_id = '$id' or res
 $panels = $result->fetch_all(MYSQLI_ASSOC);
 
 $back = $baseUrls['mreservations'];
-$error = $_SESSION['error'] === 1;
+$error = isset($_SESSION['error']) && $_SESSION['error'] === 1;
 $action = $_GET["action"] ?? "apply-changes";
 ?>
 

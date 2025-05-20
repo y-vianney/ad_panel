@@ -9,4 +9,5 @@ $baseUrls = [
     "mhistorique" => "",
     "reserver" => "http://localhost/ad_panel/views/reservation/faire-reservation.php",
     "modifier-reservation" => "http://localhost/ad_panel/views/reservation/update.php",
+    "ajouter-panneau" => "http://localhost/ad_panel/views/panneau/create.php",
 ];

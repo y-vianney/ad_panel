@@ -10,42 +10,72 @@
 </head>
 
 <?php
+require_once "../../app/middleware/auth.php";
 require_once "../../app/models/constants.php";
+
+$option = $_GET["option"] ?? null;
+$sidebarOptions = ["update-user"];
+
+$isSidebarActivated = $option && in_array($option, $sidebarOptions);
 ?>
 
 <body>
-<form action="../../app/controller/panneau.php?action=create" method="post">
-    <span class="h1">Panneau</span>
+<div class="layout">
+    <?php include_once "../layouts/navbar.php"; ?>
 
-    <?php foreach ($controls_p as $key => $properties): ?>
-        <?php if ($properties['type'] !== "select"): ?>
-            <div class="form-control">
-                <label for="<?= $key ?>"><?= $properties["label"] ?></label>
-                <input name="<?= $key ?>" id="<?= $key ?>"
-                       type="<?= $properties["type"] ?>"
-                    <?php if (isset($properties["min"])): ?>
-                        min="<?= $properties["min"] ?>"
-                    <?php endif; ?>
-                    <?php if (isset($properties["step"])): ?>
-                        step="<?= $properties["step"] ?>"
-                    <?php endif; ?>
-                >
+    <div class="content">
+        <div class="topbar">
+            <?php include_once "../layouts/topbar.php"; ?>
+        </div>
+
+        <div class="main-block">
+            <div class="content-block">
+                <!--<div class="header">
+                    <span style="font-weight: 500">Ajouter des filtres</span>
+
+                    <form class="filter-field" style="margin-top: 10px; flex-direction: row">
+                        <input type="text" required>
+                        <input type="text" required>
+                        <input type="text" required>
+
+                        <button type="submit">Appliquer</button>
+                    </form>
+                </div>-->
+
+                <form action="../../app/controller/panneau.php?action=create" method="post">
+                    <div class="form-control">
+                        <label for="emplacement">Emplacement</label>
+                        <select id="emplacement">
+                            <option value="" selected="selected">Choisissez</option>
+                            <option value="Abidjan - Plateau, Avenue Chardy" >Abidjan - Plateau, Avenue Chardy</option>
+                            <option value="Yopougon - Sideci, en face de la pharmacie Akadjoba" >Yopougon - Sideci, en face de la pharmacie Akadjoba</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-control">
+                            <label for="long">Longueur</label>
+                            <input type="number" id="long" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-control">
+                            <label for="long">Largeur</label>
+                            <input type="number" id="long" step="0.01" min="0">
+                        </div>
+                    </div>
+
+
+
+                    <button type="submit" style="margin-top: 25px">Enregistrer</button>
+                </form>
             </div>
-        <?php else: ?>
-            <div class="form-control">
-                <label for="<?= $key ?>"><?= $properties["label"] ?></label>
-                <select name="<?= $key ?>" id="<?= $key ?>">
-                    <option value="" selected="selected">Choisissez</option>
-                    <?php foreach ($properties["options"] as $option): ?>
-                        <option value="<?= $option["value"] ?>"><?= $option["label"] ?></option>
-                    <?php endforeach; ?>
-                </select>
+
+            <div class="sidebar<?= $isSidebarActivated ? ' active' : $isSidebarActivated ?>">
+                <?php include_once "../client/modification.php"; ?>
             </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
+        </div>
+    </div>
 
-    <button type="submit" style="margin-top: 25px">Enregistrer</button>
-</form>
-
+</div>
 </body>
 </html>

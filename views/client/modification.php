@@ -14,7 +14,7 @@ $user = [
     "contact" => $session['contact'],
 ];
 
-$error = $_SESSION["error"] === 1;
+$error = isset($_SESSION['error']) && $_SESSION["error"] === 1;
 
 $uri = $_SERVER['REQUEST_URI'];
 $url = parse_url($uri, PHP_URL_PATH);

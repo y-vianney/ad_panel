@@ -103,6 +103,7 @@ if ($action == "register") {  // CREATE
                 $_SESSION['email'] = $email;
                 $_SESSION['adresse'] = $row['adresse'];
                 $_SESSION['contact'] = $row['contact'];
+                $_SESSION['role'] = $row['role'];
 
                 header("Location: " . $baseUrls['espace']);
             }
