@@ -12,11 +12,15 @@
 <?php
 require_once "../../app/middleware/auth.php";
 require_once "../../app/models/constants.php";
+require_once "../../app/models/uri.php";
+
 
 $option = $_GET["option"] ?? null;
 $sidebarOptions = ["update-user"];
 
 $isSidebarActivated = $option && in_array($option, $sidebarOptions);
+
+$back = $baseUrls['panneaux'];
 ?>
 
 <body>
@@ -29,6 +33,10 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
         </div>
 
         <div class="main-block">
+            <a href="<?= $back ?>" style="position: absolute; display: flex; justify-content: center;">
+                <img src="../../public/images/arrow-sm-left.svg" alt="icon" width="45">
+            </a>
+
             <div class="content-block">
                 <!--<div class="header">
                     <span style="font-weight: 500">Ajouter des filtres</span>
@@ -63,8 +71,6 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
                             <input type="number" id="long" step="0.01" min="0">
                         </div>
                     </div>
-
-
 
                     <button type="submit" style="margin-top: 25px">Enregistrer</button>
                 </form>

@@ -18,6 +18,9 @@ if (session_status() === PHP_SESSION_NONE)
 
 <?php
 $id = $_GET["id"];
+$role = $_GET["role"];
+
+$isAdmin = $role == 'admin';
 
 $result = $cnx->query("
     select reservation.id as reserv_id, reservation.date_deb, reservation.date_fin, reservation.statut, reservation.montant, panneau.*
@@ -54,14 +57,16 @@ $action = $_GET["action"] ?? "apply-changes";
     Cette réservation est introuvable
     <?php else: ?>
 
-    <div>
-        <a href="../../app/controller/reservation.php?action=cancel&id=<?= $id ?>"
-           style="font-size: .8rem; text-decoration: none !important; color: #dd1313; padding: 10px 15px; border: 1px solid #ec3e3e; background: white; margin-right: 15px"
-        >
-            Envoyer une demande d'annulation
-        </a>
-<!--        <a href="" style="font-size: .8rem; text-decoration: none !important; color: #000000; padding: 10px 15px; border: 1px solid #000000; background: white;">Voir les informations du panneau sélectionné</a>-->
-    </div>
+    <?php if (!$isAdmin): ?>
+        <div>
+            <a href="../../app/controller/reservation.php?action=cancel&id=<?= $id ?>"
+               style="font-size: .8rem; text-decoration: none !important; color: #dd1313; padding: 10px 15px; border: 1px solid #ec3e3e; background: white; margin-right: 15px"
+            >
+                Envoyer une demande d'annulation
+            </a>
+            <!--        <a href="" style="font-size: .8rem; text-decoration: none !important; color: #000000; padding: 10px 15px; border: 1px solid #000000; background: white;">Voir les informations du panneau sélectionné</a>-->
+        </div>
+    <?php endif; ?>
 
     <form action="../../app/controller/reservation.php?action=<?= $action ?>" method="post" style="margin: 25px 0 0 0; padding: 0">
         <input type="hidden" name="id" value="<?= $row['reserv_id'] ?>">

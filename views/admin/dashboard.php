@@ -8,7 +8,7 @@
 </head>
 
 <?php
-require_once "../../app/middleware/auth.php";
+require_once "../../app/middleware/role.php";
 
 $option = $_GET["option"] ?? null;
 $sidebarOptions = ["update-user"];
@@ -27,23 +27,11 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
 
         <div class="main-block">
             <div class="content-block">
-                <!--<div class="header">
-                    <span style="font-weight: 500">Ajouter des filtres</span>
 
-                    <form class="filter-field" style="margin-top: 10px; flex-direction: row">
-                        <input type="text" required>
-                        <input type="text" required>
-                        <input type="text" required>
-
-                        <button type="submit">Appliquer</button>
-                    </form>
-                </div>-->
-
-                <?php include_once "../reservation/reservationList.php"; ?>
             </div>
 
             <div class="sidebar<?= $isSidebarActivated ? ' active' : $isSidebarActivated ?>">
-                <?php include_once "modification.php"; ?>
+                <?php include_once "../client/modification.php"; ?>
             </div>
         </div>
     </div>

@@ -2,9 +2,13 @@
 require_once "../../app/connect.php";
 require_once "../../app/models/uri.php";
 
-$query = "select * from panneau where reservation_id=0";
+$role = $_SESSION['role'];
+$isAdmin = $role == 'admin';
 
-$result = $cnx->query($query);
+$query = "select * from panneau where reservation_id=0";
+$adminQuery = "select * from panneau order by reservation_id desc";
+
+$result = $isAdmin ? $cnx->query($adminQuery) : $cnx->query($query);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
@@ -29,17 +33,31 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     </ul>
                 </div>
 
-                <a <?= $row['reservation_id'] == 0 ? 'href=' . $baseUrls['reserver'] . "?panel=" . $row['id'] : '' ?>
-                        style="
-                                border: 1px solid <?= $row['reservation_id'] == 0 ? '#000' : '#a60000' ?>;
-                                width: 150px; height: 45px; background: #fff; display: flex; justify-content: center; align-items: center;
-                                color: <?= $row['reservation_id'] == 0 ? '#000' : '#a60000' ?>; text-decoration: none !important;
-                                cursor: <?= $row['reservation_id'] == 0 ? 'pointer' : 'not-allowed' ?>;
-                                min-width: 100px
-                                "
-                >
-                    <?= $row['reservation_id'] == 0 ? 'Réserver' : 'Indisponible' ?>
-                </a>
+                <?php if ($isAdmin): ?>
+                    <a <?= $row['reservation_id'] == 0 ? 'href=' . $baseUrls['modifier-panneau'] . "?id=" . $row['id'] : '' ?>
+                            style="
+                                    border: 1px solid #000000;
+                                    width: 150px; height: 45px; background: #fff; display: flex; justify-content: center; align-items: center;
+                                    color: #000; text-decoration: none !important;
+                                    cursor: pointer;
+                                    min-width: 100px
+                                    "
+                    >
+                        <?= $row['reservation_id'] == 0 ? 'Modifier' : 'Indisponible' ?>
+                    </a>
+                <?php else: ?>
+                    <a <?= $row['reservation_id'] == 0 ? 'href=' . $baseUrls['reserver'] . "?panel=" . $row['id'] : '' ?>
+                            style="
+                                    border: 1px solid <?= $row['reservation_id'] == 0 ? '#000' : '#a60000' ?>;
+                                    width: 150px; height: 45px; background: #fff; display: flex; justify-content: center; align-items: center;
+                                    color: <?= $row['reservation_id'] == 0 ? '#000' : '#a60000' ?>; text-decoration: none !important;
+                                    cursor: <?= $row['reservation_id'] == 0 ? 'pointer' : 'not-allowed' ?>;
+                                    min-width: 100px
+                                    "
+                    >
+                        <?= $row['reservation_id'] == 0 ? 'Réserver' : 'Indisponible' ?>
+                    </a>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     <?php else: ?>

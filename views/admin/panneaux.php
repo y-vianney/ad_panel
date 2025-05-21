@@ -8,7 +8,8 @@
 </head>
 
 <?php
-require_once "../../app/middleware/auth.php";
+require_once "../../app/middleware/role.php";
+require_once "../../app/models/uri.php";
 
 $option = $_GET["option"] ?? null;
 $sidebarOptions = ["update-user"];
@@ -39,7 +40,19 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
                     </form>
                 </div>-->
 
-                <?php include_once "../reservation/reservationList.php"; ?>
+                <a href="<?= $baseUrls['ajouter-panneau'] ?>" style="
+                        border: 1px solid #000000;
+                        width: 150px; height: 45px; background: #fff; display: flex; justify-content: center; align-items: center;
+                        color: #000; text-decoration: none !important;
+                        cursor: pointer;
+                        min-width: 100px;
+                        margin-bottom: 25px;
+                    "
+                >
+                    Ajouter un panneau
+                </a>
+
+                <?php include_once "../panneau/panneauxList.php"; ?>
             </div>
 
             <div class="sidebar<?= $isSidebarActivated ? ' active' : $isSidebarActivated ?>">

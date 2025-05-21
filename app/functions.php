@@ -12,7 +12,7 @@ function validateClient($method): bool
 }
 
 function validateReservation($method): bool
-{  // Function used to validate the form data based on the client fields
+{  // Function used to validate the form data based on the reservation fields
     return (
         isset($method['date_deb']) &&
         isset($method['date_fin']) &&
@@ -22,7 +22,7 @@ function validateReservation($method): bool
 }
 
 function validatePanneau($method): bool
-{  // Function used to validate the form data based on the client fields
+{  // Function used to validate the form data based on the panneau fields
     return (
         isset($method['emplacement']) &&
         isset($method['longueur']) &&

@@ -26,6 +26,7 @@ require_once "../../app/middleware/auth.php";
 require_once "../../app/models/constants.php";
 require_once "../../app/connect.php";
 require_once "../../app/functions.php";
+require_once "../../app/models/uri.php";
 
 
 $id = $_GET['panel'];
@@ -35,7 +36,7 @@ $result = $cnx->query($query);
 $row = $result->fetch_assoc();
 $montant = 0;
 
-$back = "http://localhost/ad_panel/views/client/espace.php";
+$back = $baseUrls['espace'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $duration = round((strtotime($_POST['date_fin']) - strtotime($_POST['date_deb'])) / (60 * 60 * 24));

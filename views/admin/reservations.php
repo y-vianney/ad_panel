@@ -8,7 +8,7 @@
 </head>
 
 <?php
-require_once "../../app/middleware/auth.php";
+require_once "../../app/middleware/role.php";
 
 $option = $_GET["option"] ?? null;
 $sidebarOptions = ["update-user"];
@@ -43,7 +43,7 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
             </div>
 
             <div class="sidebar<?= $isSidebarActivated ? ' active' : $isSidebarActivated ?>">
-                <?php include_once "modification.php"; ?>
+                <?php include_once "../client/modification.php"; ?>
             </div>
         </div>
     </div>

@@ -5,6 +5,9 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 $id = $_SESSION['id'];
+$role = $_SESSION['role'];
+$isAdmin = $role == 'admin';
+
 $query = "
     select reservation.id as reserv_id, reservation.date_deb, reservation.date_fin, reservation.statut, reservation.montant, panneau.*
     from reservation
@@ -12,7 +15,14 @@ $query = "
     where client_id = '$id'
 ";
 
-$result = $cnx->query($query);
+$adminQuery = "
+    select reservation.id as reserv_id, reservation.date_deb, reservation.date_fin, reservation.statut, reservation.montant, panneau.*
+    from reservation
+    inner join panneau on reservation.id = panneau.reservation_id
+    inner join client on client.id = reservation.client_id
+";
+
+$result = $isAdmin ? $cnx->query($adminQuery) : $cnx->query($query);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
@@ -51,6 +61,9 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Durée</th>
             <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Montant de la réservation</th>
             <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Statut</th>
+            <?php if ($isAdmin): ?>
+                <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Observation</th>
+            <?php endif; ?>
             <th style="min-width: fit-content; padding: 4px 25px 15px 0; text-align: start">Actions</th>
         </thead>
 
@@ -71,12 +84,28 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     <td style="padding: 15px 25px 15px 0; text-align: start"><?= round((strtotime($row['date_fin']) - strtotime($row['date_deb'])) / (60 * 60 * 24)) ?> jours</td>
                     <td style="padding: 15px 25px 15px 0; text-align: start"><?= number_format($row['montant'], 0, ',', '.') ?> F</td>
                     <td style="padding: 15px 25px 15px 0; text-align: center">
-                    <span class="status <?= (strtolower($row['statut']) == 'active' ? 'active' : (strtolower($row['statut']) == 'suspendue')) ? 'suspended' : 'inactive' ?>">
-                        <?= $row['statut'] ?>
-                    </span>
+                        <span class="status <?php
+                            if (strtolower($row['statut']) == 'active')
+                                echo 'active';
+                            elseif (strtolower($row['statut']) == 'inactive')
+                                echo 'inactive';
+                            else
+                                echo 'suspended';
+                        ?>"
+                        >
+                            <?= $row['statut'] ?>
+                        </span>
                     </td>
+                    <?php if ($isAdmin): ?>
+                        <td style="padding: 15px 25px 15px 0; text-align: start">
+                            <?= strtolower($row['statut']) == "suspendue" ? "Une demande d'annulation a été envoyée par le client" : "R.A.S"?>
+                        </td>
+                    <?php endif; ?>
                     <td style="padding: 15px 25px 15px 0; text-align: start">
                         <a href="../reservation/update.php?id=<?= $row['reserv_id'] ?>">Modifier</a>
+                        <?php if ($isAdmin): ?>
+                            <a href="">Annuler</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

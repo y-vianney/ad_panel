@@ -4,10 +4,6 @@ require_once "models/uri.php";
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-$session = $_SESSION['id'] ?? null;
-if (!$session)
-    header('Location: ' . $baseUrls['index']);
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -39,7 +35,7 @@ if ($cnx -> connect_errno) {  // Print message if connection failed
             $id = $row['id'];
 
             $updatePanelQuery = "update panneau set etat='Disponible', reservation_id=0 where reservation_id=$id";
-            $updateReservationQuery = "update reservation set statut='Inactive' where id=$id'";
+            $updateReservationQuery = "update reservation set statut='Inactive' where id=$id";
 
             if (!$cnx->query($updatePanelQuery) || !$cnx->query($updateReservationQuery)) {
                 echo "Failed to update outdated data!";

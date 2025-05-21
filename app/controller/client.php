@@ -60,6 +60,8 @@ if ($action == "register") {  // CREATE
                 if ($cnx->query($query) === TRUE) {
                     $_SESSION['error'] = 0;
                     header("Location: " . $baseUrls['authenticate'] . "?page=login?msg=$msg");
+
+                    exit();
                 }
                 else
                     $msg = "Une erreur est survenue lors de l'enregistrement de votre compte. Veuillez contacter un administrateur.";

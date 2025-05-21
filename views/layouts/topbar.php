@@ -9,6 +9,9 @@ $editMode = isset($_GET['option']) && $_GET['option'] == 'update-user';
 $bTitle = $editMode ? "Fermer" : "Modifier mes informations";
 
 switch ($url) {
+    case str_ends_with($url, 'admin/dashboard.php'):
+        $title = "Tableau de bord";
+        break;
     case str_ends_with($url, 'espace.php'):
         $title = "Nos panneaux";
         break;
@@ -20,6 +23,12 @@ switch ($url) {
         break;
     case str_ends_with($url, 'panneau/create.php'):
         $title = "Ajouter un panneau";
+        break;
+    case str_ends_with($url, 'admin/reservations.php'):
+        $title = "Gestion des reservations";
+        break;
+    case str_ends_with($url, 'admin/panneaux.php'):
+        $title = "Gestion des panneaux";
         break;
 }
 ?>

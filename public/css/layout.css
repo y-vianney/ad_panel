@@ -77,6 +77,7 @@
 
 .layout .content .main-block {
     min-height: calc(100% - 65px);
+    position: relative;
     display: flex;
     transition: all .4s ease-in;
     overflow-y: scroll;
