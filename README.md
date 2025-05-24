@@ -57,13 +57,13 @@ projet/
 
 ## 🚀 Roadmap
 ### En cours de développement
-[-] Système de filtrage
-[+] Interface d'administration complète
-[+] Gestion des rôles utilisateurs
+[-] Système de filtrage<br>
+[+] Interface d'administration complète<br>
+[+] Gestion des rôles utilisateurs<br>
 [-] Documentation complète
 
 ### Prochaines fonctionnalités
-[-] Système de notifications
-[-] Tableau de bord analytics
-[-] Export de rapports
+[-] Système de notifications<br>
+[-] Tableau de bord analytics<br>
+[-] Export de rapports<br>
 [-] Interface multilingue
