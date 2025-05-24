@@ -18,7 +18,14 @@ if (session_status() === PHP_SESSION_NONE)
 
 <?php
 $id = $_GET["id"];
-$role = $_GET["role"];
+$role = $_SESSION["role"];
+$selectedPanelID = $_GET["panel"] ?? null;
+
+if ($selectedPanelID) {
+    $selectedPanelQuery = "select * from panneau where id = $selectedPanelID";
+    $selectedPanelQueryResult = $cnx->query($selectedPanelQuery);
+    $selectedPanel = $selectedPanelQueryResult->fetch_assoc();
+}
 
 $isAdmin = $role == 'admin';
 
@@ -33,15 +40,18 @@ $row = $result->fetch_assoc();
 $result = $cnx->query("select * from panneau where reservation_id = '$id' or reservation_id = 0");
 $panels = $result->fetch_all(MYSQLI_ASSOC);
 
-$back = $baseUrls['mreservations'];
+$back = $isAdmin ? $baseUrls['reservations'] : $baseUrls['mreservations'];
 $error = isset($_SESSION['error']) && $_SESSION['error'] === 1;
 $action = $_GET["action"] ?? "apply-changes";
 ?>
 
 <body>
-<a href="<?= $back ?>" style="position: absolute; top: 50px; left: 50px; display: flex; justify-content: center; gap: 15px">
-    <img src="../../public/images/arrow-sm-left.svg" alt="icon" width="50">
-</a>
+<?php if (!isset($selectedPanel)): ?>
+    <a href="<?= $back ?>" style="position: absolute; top: 50px; left: 50px; display: flex; justify-content: center; gap: 15px">
+        <img src="../../public/images/arrow-sm-left.svg" alt="icon" width="50">
+    </a>
+<?php endif; ?>
+
 
 <div style="
     width: fit-content;
@@ -79,7 +89,16 @@ $action = $_GET["action"] ?? "apply-changes";
                     <label for="panel">Panneau</label>
                     <select id="panel" name="panel">
                         <?php foreach ($panels as $panel): ?>
-                            <option value="<?= $panel['id'] ?>" <?= $panel['id'] == $row['id'] ? 'selected="selected"' : '' ?>>
+                            <option value="<?= $panel['id'] ?>"
+                                <?php
+                                if (isset($selectedPanel))
+                                    if ($selectedPanel['id'] == $panel['id'])
+                                        echo 'selected="selected"';
+                                else
+                                    if ($panel['id'] == $row['id'])
+                                        echo 'selected="selected"';
+                                ?>
+                            >
                                 <?= $panel['type'] . ' - ' . $panel['emplacement'] ?>
                             </option>
                         <?php endforeach; ?>
@@ -100,13 +119,13 @@ $action = $_GET["action"] ?? "apply-changes";
             <div class="right">
                 <span class="h2">Informations du panneau</span>
 
-                <ul style="list-style-type: circle">
-                    <li style="margin-bottom: 15px"> <?= $row['type'] ?> </li>
-                    <li style="margin-bottom: 15px"> <?= $row['emplacement'] ?> </li>
-                    <li style="margin-bottom: 15px"> <?= $row['prix'] ?> F CFA </li>
-                    <li style="margin-bottom: 15px"> Longueur : <?= $row['longueur'] ?> m </li>
-                    <li style="margin-bottom: 15px"> Largeur : <?= $row['largeur'] ?> m </li>
-                    <li style="margin-bottom: 15px"> <?= $row['description'] ?> </li>
+                <ul style="list-style-type: circle; min-width: 350px; max-width: 350px">
+                    <li style="margin-bottom: 15px"> <?= isset($selectedPanel) ? $selectedPanel['type'] : $row['type'] ?> </li>
+                    <li style="margin-bottom: 15px"> <?= isset($selectedPanel) ? $selectedPanel['emplacement'] : $row['emplacement'] ?> </li>
+                    <li style="margin-bottom: 15px"> <?= isset($selectedPanel) ? $selectedPanel['prix'] : $row['prix'] ?> F CFA </li>
+                    <li style="margin-bottom: 15px"> Longueur : <?= isset($selectedPanel) ? $selectedPanel['longueur'] : $row['longueur'] ?> m </li>
+                    <li style="margin-bottom: 15px"> Largeur : <?= isset($selectedPanel) ? $selectedPanel['largeur'] : $row['largeur'] ?> m </li>
+                    <li style="margin-bottom: 15px"> <?= isset($selectedPanel) ? $selectedPanel['description'] : $row['description'] ?> </li>
                 </ul>
             </div>
         </div>
@@ -115,9 +134,15 @@ $action = $_GET["action"] ?? "apply-changes";
             <small style="color: <?= $error ? 'darkred' : 'green' ?>"><?= $_GET['msg'] ?></small>
         <?php endif; ?>
 
-        <div style="display: flex; margin-top: 35px; gap: 15px">
-<!--            <button type="submit" style="background: #ffffff; border: 1px solid; color: #000000; width: fit-content; min-width: 300px">Appliquer les modifications</button>-->
-            <button type="submit" style="width: fit-content; min-width: 400px">Soumettre les modifications</button>
+        <div style="display: flex; flex-direction: column; margin-top: 35px; gap: 5px">
+            <?php if (isset($selectedPanel)): ?>
+                <button type="submit" style="width: fit-content; min-width: 400px" disabled>Soumettre les modifications</button><br>
+                <span>Fonctionalité par encore implémentée.</span>
+            <?php else: ?>
+                <button type="submit" style="background: #ffffff; border: 1px solid; color: #000000; width: fit-content; min-width: 300px">
+                    Appliquer les modifications
+                </button>
+            <?php endif; ?>
         </div>
     </form>
     <?php endif; ?>

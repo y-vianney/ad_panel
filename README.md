@@ -1,53 +1,101 @@
-# Projet de gestion de panneaux publicitaires
-Application de gestion de panneaux publicitaires, développée avec `PHP Vanilla`.
-</br>
-</br>
-<b>Fonctionnalités</b> :
-- Réserver un panneau
-- Gérer ses réservations
-- Modifier une réservation
-- Annuler une réservation
-- Modifier son profil
+# Système de Gestion de Panneaux Publicitaires
+Application de gestion de panneaux publicitaires développée avec PHP Vanilla, permettant la gestion complète des réservations d'espaces publicitaires.
 
-## Dernières modifications
-- <u>Gestion des réservations</u>:
-  - Demande d'annulation: Changer le statut de la réclamation quand une demande d'annulation est faite
-  - Modification des informations d'une réservation: Changer le panneau et les dates de réservation (Date debut, date fin), et en conséquence, le montant de la réservation
-  - Implémentation de la fonction de calcul du montant de la réservation; basé sur la durée, le prix du panneau, l'aire du panneau (longueur x largeur) et un poids déterminé en fonction du type de panneau
-  - Modification de l'interface de modification de panneau
+## 🎯 Fonctionnalités principales
+### Gestion des panneaux
+- Création et modification de panneaux publicitaires
+- Gestion des emplacements et caractéristiques
+- Suivi de l'état des panneaux (disponible, réservé)
 
-- <u>Gestion du profil utilisateur</u>:
-  - Modification des informations utilisateur: Ajout du formulaire de modification des informations de l'utilisateur connecté (Nom, prénoms, adresse) - Contact, email et mot de passe, pas encore pris en compte
+### Système de réservation
+- Réservation de panneaux avec dates spécifiques
+- Calcul automatique des tarifs basé sur :
+  - Dimensions du panneau (longueur × largeur)
+  - Type de panneau (multiplicateur spécifique)
+  - Durée de réservation
+  - Prix de base du panneau
 
-- <u>Global</u>:
-  - Ajout du thread répétitif de mis à jour des statuts - Un <b>thread</b> est une action qui s'exécute indépendamment du reste de l'application
+### Gestion des utilisateurs
+- Système d'authentification complet
+- Profils clients avec informations personnalisées
+- Historique des réservations
+- Modification des informations personnelles
+
+## 🛠 Technologies utilisées
+- PHP 8.x
+- MySQL
+- HTML5/CSS3
+- Architecture MVC
+
+## 💻 Installation
+1. Cloner le repository
+
+2. Configurer la base de données
+    - Importer le fichier SQL `database/bd_panel.sql`
+    - Configurer les accès dans `app/config/database.php`
+
+3. Configurer le serveur web
+    - Point d'entrée : `public/index.php`
+    - Permissions : Dossiers `storage/` et `public/uploads/`
+
+## 📁 Structure du projet
+`projet/
+├── app/ # Logique applicative
+│ ├── controllers/ # Contrôleurs
+│ ├── models/ # Modèles de données
+│ ├── middleware/ # Middlewares (auth, roles)
+│ └── database/ # Configuration BDD
+├── public/ # Assets publics
+│ ├── css/ # Styles
+│ ├── js/ # Scripts
+│ ├── images/ # Images
+│ └── fonts/ # Polices
+└── views/ # Templates
+  ├── client/ # Vues client
+  ├── panneau/ # Vues panneaux
+  └── reservation/ # Vues réservations
+`
 
 
-## Tâches restantes
-- <b>Ajout des filtres</b>
-- <b>Gestion de l'administration</b>:
-  - Gestion des rôles utilisateurs
-  - Ajout des pages d'administration: Créer un panneau, gérer les utilisateurs, gérer les réservations (les demandes d'annulation, à ne pas oublier)
-  - Implémentation du middleware de gestion de rôle
-- <b>Ajout des commentaires</b>
-- <b>Création d'une documentation</b>
+## 📚 Guide d'utilisation
+### Interface client
+1. **Réservation d'un panneau**
+    - Sélection du panneau
+    - Choix des dates
+    - Validation et paiement
 
+2. **Gestion des réservations**
+    - Consultation
+    - Modification
+    - Annulation
 
-# Arborescence
+### Interface administrateur
+1. **Gestion des panneaux**
+    - Ajout/Modification
+    - Suivi des états
 
-. <br>
-├── app <br>
-│  ├── controller <br>
-│  ├── database <br>
-│  ├── middleware <br>
-│  └── models <br>
-├── public <br>
-│  ├── css <br>
-│  ├── fonts <br>
-│  ├── images <br>
-│  ├── js <br>
-│  └── svg <br>
-└── views <br>
-   ├── client <br>
-   ├── panneau <br>
-   └── reservation <br>
+2. **Gestion des utilisateurs**
+    - Validation des comptes
+    - Gestion des droits
+
+## 🔧 Services
+### Calcul des tarifs
+- Calcule automatiquement le montant basé sur les paramètres
+
+### Validation des données
+- Vérification des formulaires
+- Sécurisation des entrées
+- Gestion des erreurs
+
+## 🚀 Roadmap
+### En cours de développement
+- [ ] Système de filtrage
+- [+] Interface d'administration complète
+- [+] Gestion des rôles utilisateurs
+- [-] Documentation complète
+
+### Prochaines fonctionnalités
+- [ ] Système de notifications
+- [-] Tableau de bord analytics
+- [ ] Export de rapports
+- [ ] Interface multilingue

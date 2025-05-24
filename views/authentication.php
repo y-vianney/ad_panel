@@ -58,14 +58,14 @@ else {
 
                 <div class="form-control">
                     <label for="prenom">Prénoms</label>
-                    <input name="prenom" id="prenom" type="text" required>
+                    <input name="prenom" id="prenom" type="text">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-control">
                     <label for="adresse">Adresse</label>
-                    <input name="adresse" id="adresse" type="text" required>
+                    <input name="adresse" id="adresse" type="text">
                 </div>
 
                 <div class="form-control">
@@ -81,7 +81,7 @@ else {
 
             <div class="form-control">
                 <label for="passwd">Mot de passe</label>
-                <input name="passwd" id="passwd" type="password">
+                <input name="passwd" id="passwd" type="password" min="5">
             </div>
         <?php endif; ?>
 

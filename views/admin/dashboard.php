@@ -27,7 +27,9 @@ $isSidebarActivated = $option && in_array($option, $sidebarOptions);
 
         <div class="main-block">
             <div class="content-block">
+                <table>
 
+                </table>
             </div>
 
             <div class="sidebar<?= $isSidebarActivated ? ' active' : $isSidebarActivated ?>">

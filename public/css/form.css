@@ -23,8 +23,9 @@ form .form-control {
     margin-bottom: 15px;
 }
 
-form .form-control input {
+form .form-control input, select {
     border: 1px solid rgba(87, 87, 87, 0.76);
+    background: #ffffff;
     padding: 10px 15px;
 }
 
@@ -69,9 +70,7 @@ form .form-control input {
 }
 
 .form-control select {
-    border: 1px solid;
-    background: #fff;
-    padding: 10px 15px;
+    padding: 11px 15px !important;
 }
 
 form button[type="submit"] {

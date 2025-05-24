@@ -103,8 +103,8 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     <?php endif; ?>
                     <td style="padding: 15px 25px 15px 0; text-align: start">
                         <a href="../reservation/update.php?id=<?= $row['reserv_id'] ?>">Modifier</a>
-                        <?php if ($isAdmin): ?>
-                            <a href="">Annuler</a>
+                        <?php if ($isAdmin && strtolower($row['statut']) == 'suspendue'): ?>
+                            <a href="" style="color: #777777">Annuler</a>
                         <?php endif; ?>
                     </td>
                 </tr>
