@@ -34,12 +34,10 @@ Application de gestion de panneaux publicitaires développée avec PHP Vanilla, 
     - Importer le fichier SQL `database/bd_panel.sql`
     - Configurer les accès dans `app/config/database.php`
 
-3. Configurer le serveur web
-    - Point d'entrée : `public/index.php`
-    - Permissions : Dossiers `storage/` et `public/uploads/`
-
 ## 📁 Structure du projet
-`projet/
+`
+<pre>
+projet/
 ├── app/ # Logique applicative
 │ ├── controllers/ # Contrôleurs
 │ ├── models/ # Modèles de données
@@ -54,48 +52,18 @@ Application de gestion de panneaux publicitaires développée avec PHP Vanilla, 
   ├── client/ # Vues client
   ├── panneau/ # Vues panneaux
   └── reservation/ # Vues réservations
+</pre>
 `
-
-
-## 📚 Guide d'utilisation
-### Interface client
-1. **Réservation d'un panneau**
-    - Sélection du panneau
-    - Choix des dates
-    - Validation et paiement
-
-2. **Gestion des réservations**
-    - Consultation
-    - Modification
-    - Annulation
-
-### Interface administrateur
-1. **Gestion des panneaux**
-    - Ajout/Modification
-    - Suivi des états
-
-2. **Gestion des utilisateurs**
-    - Validation des comptes
-    - Gestion des droits
-
-## 🔧 Services
-### Calcul des tarifs
-- Calcule automatiquement le montant basé sur les paramètres
-
-### Validation des données
-- Vérification des formulaires
-- Sécurisation des entrées
-- Gestion des erreurs
 
 ## 🚀 Roadmap
 ### En cours de développement
-- [ ] Système de filtrage
-- [+] Interface d'administration complète
-- [+] Gestion des rôles utilisateurs
-- [-] Documentation complète
+[-] Système de filtrage
+[+] Interface d'administration complète
+[+] Gestion des rôles utilisateurs
+[-] Documentation complète
 
 ### Prochaines fonctionnalités
-- [ ] Système de notifications
-- [-] Tableau de bord analytics
-- [ ] Export de rapports
-- [ ] Interface multilingue
+[-] Système de notifications
+[-] Tableau de bord analytics
+[-] Export de rapports
+[-] Interface multilingue
